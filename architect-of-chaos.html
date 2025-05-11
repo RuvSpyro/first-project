@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architect of Chaos</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: radial-gradient(#0b0c10, #000);
+      color: white;
+      font-family: 'Courier New', monospace;
+    }
+    #info {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      max-width: 400px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div id="info">
+    <h2>Architect of Chaos</h2>
+    <p>
+      Ты находишься в мире, где реальность подчиняется тебе.<br />
+      Это место, в котором ты создаёшь хаос и порядок.<br />
+      Добро пожаловать. Это только начало.
+    </p>
+    <p style="font-size: 12px; opacity: 0.7;">
+      Проект создан 14-летним Архитектором, разрушающим границы.<br />
+      Нажми на сферу — она почувствует тебя.
+    </p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script>
+    let scene = new THREE.Scene();
+    let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    let renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const geometry = new THREE.SphereGeometry(1.5, 64, 64);
+    const material = new THREE.MeshStandardMaterial({ color: 0x4c00ff, metalness: 0.6, roughness: 0.3 });
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+
+    const light = new THREE.PointLight(0xffffff, 1, 100);
+    light.position.set(5, 5, 5);
+    scene.add(light);
+
+    camera.position.z = 5;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      sphere.rotation.y += 0.003;
+      sphere.rotation.x += 0.001;
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    window.addEventListener('click', () => {
+      sphere.material.color.set(Math.random() * 0xffffff);
+      sphere.scale.setScalar(1 + Math.random() * 0.3);
+    });
+  </script>
+</body>
+</html>
